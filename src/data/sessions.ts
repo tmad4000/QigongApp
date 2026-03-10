@@ -43,7 +43,7 @@ export const SESSIONS: Session[] = [
         description:
           'A gentle 5-minute energy medicine routine that balances your meridians, strengthens your aura, and gets your energies flowing in the right direction. Nine easy exercises developed from nearly four decades of energy medicine work.',
         durationMin: 5,
-        videoUrl: 'https://www.youtube.com/results?search_query=Donna+Eden+Daily+Energy+Routine+official',
+        videoUrl: 'https://www.youtube.com/watch?v=1xyCLGVtxoU',
       },
       {
         id: 'max-strom-tedx',

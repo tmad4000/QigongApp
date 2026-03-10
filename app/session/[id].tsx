@@ -53,6 +53,13 @@ export default function SessionDetail() {
     };
   }, [isPlaying]);
 
+  // Auto-stop timer when session completes
+  useEffect(() => {
+    if (isPlaying && activeExercise && elapsed >= activeExercise.durationMin * 60) {
+      setIsPlaying(false);
+    }
+  }, [elapsed, isPlaying, activeExercise]);
+
   if (!session || !activeExercise) {
     return (
       <View style={[styles.container, { backgroundColor: theme.bg }]}>
@@ -181,7 +188,7 @@ export default function SessionDetail() {
             ]}
           >
             <Text style={[styles.playBtnText, { color: variant === 'zen-flow' ? '#0D1117' : theme.accentText }]}>
-              {isPlaying ? 'Pause' : elapsed > 0 ? 'Resume' : 'Begin Practice'}
+              {progress >= 1 ? 'Complete \u2713' : isPlaying ? 'Pause' : elapsed > 0 ? 'Resume' : 'Begin Practice'}
             </Text>
           </TouchableOpacity>
           {elapsed > 0 && (
