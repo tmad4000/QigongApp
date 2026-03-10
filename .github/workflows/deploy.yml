@@ -21,40 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare redirect site
-        run: |
-          mkdir -p site
-          cp CNAME site/
-          cat > site/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <title>Qigong Garden</title>
-            <meta http-equiv="refresh" content="0;url=https://jacobblog.notion.site/10c688cb81684cd0ac1a0de5818ee458?v=5cdaac02708b44f0904620003f19e975">
-            <link rel="canonical" href="https://jacobblog.notion.site/10c688cb81684cd0ac1a0de5818ee458?v=5cdaac02708b44f0904620003f19e975">
-          </head>
-          <body>
-            <p>Redirecting to <a href="https://jacobblog.notion.site/10c688cb81684cd0ac1a0de5818ee458?v=5cdaac02708b44f0904620003f19e975">Qigong Garden</a>...</p>
-          </body>
-          </html>
-          EOF
-          cat > site/404.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <title>Qigong Garden</title>
-            <meta http-equiv="refresh" content="0;url=https://jacobblog.notion.site/10c688cb81684cd0ac1a0de5818ee458?v=5cdaac02708b44f0904620003f19e975">
-          </head>
-          <body>
-            <p>Redirecting to <a href="https://jacobblog.notion.site/10c688cb81684cd0ac1a0de5818ee458?v=5cdaac02708b44f0904620003f19e975">Qigong Garden</a>...</p>
-          </body>
-          </html>
-          EOF
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx expo export --platform web
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: dist
       - id: deployment
         uses: actions/deploy-pages@v4
