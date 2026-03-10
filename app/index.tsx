@@ -40,7 +40,7 @@ export default function HomeScreen() {
             <Logo size={40} color={theme.accent} />
             <View style={styles.headerTextGroup}>
               <Text style={[styles.title, { color: theme.text }]}>{theme.name}</Text>
-              {variant === 'zen-flow' && (
+              {(variant === 'zen-flow' || variant === 'zen-flow-light') && (
                 <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
                   Cultivate your energy
                 </Text>
@@ -78,7 +78,7 @@ export default function HomeScreen() {
         {/* Session grid */}
         {variant === 'jacob-original' ? (
           <JacobGrid sessions={SESSIONS} router={router} theme={theme} />
-        ) : variant === 'zen-flow' ? (
+        ) : variant === 'zen-flow' || variant === 'zen-flow-light' ? (
           <ZenFlowGrid sessions={SESSIONS} router={router} theme={theme} />
         ) : variant === 'serenity' ? (
           <SerenityGrid sessions={SESSIONS} router={router} theme={theme} />
@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
   // Design switcher
   designSwitcher: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 8,
     marginBottom: 24,
   },

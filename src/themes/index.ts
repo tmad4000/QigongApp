@@ -1,4 +1,4 @@
-export type DesignVariant = 'jacob-original' | 'zen-flow' | 'ember' | 'serenity';
+export type DesignVariant = 'jacob-original' | 'zen-flow' | 'zen-flow-light' | 'ember' | 'serenity';
 
 export interface Theme {
   name: string;
@@ -56,6 +56,25 @@ export const themes: Record<DesignVariant, Theme> = {
     badgeText: '#6EC6A7',
     headerBg: 'transparent',
     headerText: '#E6EDF3',
+  },
+
+  // Calm-inspired light: misty, warm, nature
+  'zen-flow-light': {
+    name: 'Qi Flow',
+    description: 'Calm & light',
+    bg: '#F7F5F0',
+    bgSecondary: '#EFECE5',
+    card: '#FFFFFF',
+    cardBorder: '#E2DDD4',
+    text: '#2C3A2E',
+    textSecondary: '#5E6E60',
+    textMuted: '#9AA89C',
+    accent: '#4A8E6F',
+    accentText: '#FFFFFF',
+    badge: 'rgba(74, 142, 111, 0.12)',
+    badgeText: '#4A8E6F',
+    headerBg: 'transparent',
+    headerText: '#2C3A2E',
   },
 
   // Breathwrk-inspired: bold, colorful, energetic

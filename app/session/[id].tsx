@@ -119,13 +119,13 @@ export default function SessionDetail() {
           <View
             style={[
               styles.durationBadge,
-              { backgroundColor: variant === 'zen-flow' ? session.color + '20' : theme.badge },
+              { backgroundColor: variant === 'zen-flow' || variant === 'zen-flow-light' ? session.color + '20' : theme.badge },
             ]}
           >
             <Text
               style={[
                 styles.durationBadgeText,
-                { color: variant === 'zen-flow' ? session.color : theme.badgeText },
+                { color: variant === 'zen-flow' || variant === 'zen-flow-light' ? session.color : theme.badgeText },
               ]}
             >
               {activeExercise.durationMin} min
@@ -145,7 +145,7 @@ export default function SessionDetail() {
         )}
 
         {/* Timer / breathing animation (always shown below video, or as primary if no video) */}
-        {variant === 'zen-flow' ? (
+        {variant === 'zen-flow' || variant === 'zen-flow-light' ? (
           <BreathingOrb
             session={session}
             isPlaying={isPlaying}
@@ -192,11 +192,11 @@ export default function SessionDetail() {
               styles.playBtn,
               {
                 backgroundColor:
-                  variant === 'zen-flow' ? session.color : theme.accent,
+                  variant === 'zen-flow' || variant === 'zen-flow-light' ? session.color : theme.accent,
               },
             ]}
           >
-            <Text style={[styles.playBtnText, { color: variant === 'zen-flow' ? '#0D1117' : theme.accentText }]}>
+            <Text style={[styles.playBtnText, { color: variant === 'zen-flow' || variant === 'zen-flow-light' ? '#0D1117' : theme.accentText }]}>
               {progress >= 1 ? 'Complete \u2713' : isPlaying ? 'Pause' : elapsed > 0 ? 'Resume' : 'Begin Practice'}
             </Text>
           </TouchableOpacity>
