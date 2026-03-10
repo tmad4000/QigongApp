@@ -51,7 +51,7 @@ export const SESSIONS: Session[] = [
         description:
           'Inhale for 4 counts, hold for 7, exhale for 8. Max Strom\'s signature breathwork practice from "Breathe to Heal" — ten to twenty minutes daily can meaningfully reduce anxiety, stress, and sleep dysfunction.',
         durationMin: 5,
-        videoUrl: 'https://www.youtube.com/watch?v=4Lb5L-VEm34',
+        videoUrl: 'https://youtu.be/4Lb5L-VEm34?si=wbPA3AjJr3GqKEeY&t=865',
       },
       {
         id: 'peter-caughey-10',
