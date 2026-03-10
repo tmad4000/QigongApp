@@ -119,9 +119,16 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
     );
   }
 
-  // Native: use WebView
-  // Dynamically require to avoid web bundling issues
+  // Native: use WebView with HTML wrapper for YouTube/Facebook embeds
   const WebView = require('react-native-webview').default;
+  const html = `<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<style>*{margin:0;padding:0;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:none}</style>
+</head><body>
+<iframe src="${embedUrl}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen></iframe>
+</body></html>`;
+
   return (
     <View style={styles.container}>
       <View
@@ -136,7 +143,7 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
         ]}
       >
         <WebView
-          source={{ uri: embedUrl }}
+          source={{ html }}
           style={{ flex: 1, borderRadius: 12 }}
           allowsFullscreenVideo
           allowsInlineMediaPlayback
