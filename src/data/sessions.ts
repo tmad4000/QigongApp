@@ -34,7 +34,7 @@ export const SESSIONS: Session[] = [
       description:
         'An energizing breathwork practice that awakens the body and clears the mind. Rhythmic belly breathing creates internal heat and boosts alertness — a natural caffeine replacement.',
       durationMin: 5,
-      videoUrl: 'https://www.youtube.com/watch?v=example1',
+      videoUrl: 'https://www.youtube.com/watch?v=NH0ZdkGSAPU',
     },
     alternatives: [
       {
@@ -59,7 +59,7 @@ export const SESSIONS: Session[] = [
         description:
           'A short but complete qigong set from Forest Rock Qigong. Includes warm-up, Fire Element exercise, Rowing the Boat, Pushing Clouds, Crane Flies South, and Painting a Rainbow.',
         durationMin: 10,
-        videoUrl: 'https://www.youtube.com/c/PeterCaughey',
+        videoUrl: 'https://www.facebook.com/watch/?v=298532812239923',
       },
     ],
   },
