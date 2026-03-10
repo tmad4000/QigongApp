@@ -7,6 +7,7 @@ function InnerLayout() {
   return (
     <>
       <StatusBar style={variant === 'zen-flow' ? 'light' : 'dark'} />
+      {/* zen-flow-light resolves to dark status bar since it's a light theme */}
       <Stack
         screenOptions={{
           headerShown: false,

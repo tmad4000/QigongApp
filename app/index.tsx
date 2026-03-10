@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../src/themes/ThemeContext';
 import { SESSIONS, Session } from '../src/data/sessions';
 import { DesignVariant, themes } from '../src/themes';
+import { UserVariant } from '../src/themes/ThemeContext';
 import { Logo } from '../src/components/Logo';
 
 const { width } = Dimensions.get('window');
@@ -21,7 +22,7 @@ const CARD_GAP = 12;
 const CARD_WIDTH = (width - 48 - CARD_GAP) / 2;
 
 export default function HomeScreen() {
-  const { theme, variant, setVariant } = useTheme();
+  const { theme, variant, userVariant, setVariant } = useTheme();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -51,28 +52,30 @@ export default function HomeScreen() {
 
         {/* Design switcher */}
         <View style={styles.designSwitcher}>
-          {(Object.keys(themes) as DesignVariant[]).map((v) => (
-            <TouchableOpacity
-              key={v}
-              onPress={() => setVariant(v)}
-              style={[
-                styles.designPill,
-                {
-                  backgroundColor: variant === v ? theme.accent : theme.card,
-                  borderColor: variant === v ? theme.accent : theme.cardBorder,
-                },
-              ]}
-            >
-              <Text
+          {(Object.keys(themes) as DesignVariant[])
+            .filter((v) => v !== 'zen-flow-light')
+            .map((v) => (
+              <TouchableOpacity
+                key={v}
+                onPress={() => setVariant(v as UserVariant)}
                 style={[
-                  styles.designPillText,
-                  { color: variant === v ? theme.accentText : theme.textSecondary },
+                  styles.designPill,
+                  {
+                    backgroundColor: userVariant === v ? theme.accent : theme.card,
+                    borderColor: userVariant === v ? theme.accent : theme.cardBorder,
+                  },
                 ]}
               >
-                {themes[v].description}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  style={[
+                    styles.designPillText,
+                    { color: userVariant === v ? theme.accentText : theme.textSecondary },
+                  ]}
+                >
+                  {themes[v].description}
+                </Text>
+              </TouchableOpacity>
+            ))}
         </View>
 
         {/* Session grid */}
