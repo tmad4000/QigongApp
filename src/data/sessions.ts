@@ -46,18 +46,10 @@ export const SESSIONS: Session[] = [
         videoUrl: 'https://www.youtube.com/results?search_query=Donna+Eden+Daily+Energy+Routine+official',
       },
       {
-        id: 'max-strom-16',
-        title: 'Max Strom Breathe to Heal (16 min)',
-        description:
-          'Guided 16-minute anxiety release practice by Max Strom. Inhale for 4 counts, hold for 7, exhale for 8. His signature breathwork — ten to twenty minutes daily can meaningfully reduce anxiety, stress, and sleep dysfunction.',
-        durationMin: 16,
-        videoUrl: 'https://www.youtube.com/watch?v=KCIjGum4TyA',
-      },
-      {
         id: 'max-strom-tedx',
-        title: 'Max Strom TEDx Talk + Practice',
+        title: 'Max Strom 4-7-8 Breathing',
         description:
-          'Max Strom\'s TEDx Cape May talk "Breathe to Heal" (3M+ views). Timestamped to the guided breathing exercise portion at 14:25.',
+          'Inhale for 4 counts, hold for 7, exhale for 8. From Max Strom\'s TEDx "Breathe to Heal" talk (3M+ views). Timestamped directly to the guided breathing exercise.',
         durationMin: 5,
         videoUrl: 'https://youtu.be/4Lb5L-VEm34?si=wbPA3AjJr3GqKEeY&t=865',
       },
@@ -161,6 +153,14 @@ export const SESSIONS: Session[] = [
         description:
           'Bruce Frantzis\' 1,500-year-old medical qigong set. Seven movements that trace and clear the body\'s etheric energy channels.',
         durationMin: 20,
+      },
+      {
+        id: 'max-strom-16',
+        title: 'Max Strom Breathe to Heal (16 min)',
+        description:
+          'Guided 16-minute anxiety release practice by Max Strom. Inhale for 4 counts, hold for 7, exhale for 8. His signature breathwork for releasing anxiety and stress.',
+        durationMin: 16,
+        videoUrl: 'https://www.youtube.com/watch?v=KCIjGum4TyA',
       },
     ],
   },
