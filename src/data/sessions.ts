@@ -41,17 +41,25 @@ export const SESSIONS: Session[] = [
         id: 'donna-eden',
         title: 'Donna Eden Daily Energy Routine',
         description:
-          'A gentle 5-minute energy medicine routine that balances your meridians, strengthens your aura, and gets your energies flowing in the right direction.',
+          'A gentle 5-minute energy medicine routine that balances your meridians, strengthens your aura, and gets your energies flowing in the right direction. Nine easy exercises developed from nearly four decades of energy medicine work.',
         durationMin: 5,
-        videoUrl: 'https://www.youtube.com/watch?v=example2',
+        videoUrl: 'https://www.youtube.com/results?search_query=Donna+Eden+Daily+Energy+Routine+official',
+      },
+      {
+        id: 'max-strom',
+        title: 'Max Strom 4-7-8 Breathing',
+        description:
+          'Inhale for 4 counts, hold for 7, exhale for 8. Max Strom\'s signature breathwork practice from "Breathe to Heal" — ten to twenty minutes daily can meaningfully reduce anxiety, stress, and sleep dysfunction.',
+        durationMin: 5,
+        videoUrl: 'https://www.youtube.com/watch?v=4Lb5L-VEm34',
       },
       {
         id: 'peter-caughey-10',
         title: 'Peter Caughey 10 Min Set',
         description:
-          'A short but complete qigong set covering basic standing postures, gentle movements, and breath coordination.',
+          'A short but complete qigong set from Forest Rock Qigong. Includes warm-up, Fire Element exercise, Rowing the Boat, Pushing Clouds, Crane Flies South, and Painting a Rainbow.',
         durationMin: 10,
-        videoUrl: 'https://www.youtube.com/watch?v=example3',
+        videoUrl: 'https://www.youtube.com/c/PeterCaughey',
       },
     ],
   },

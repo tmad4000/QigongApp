@@ -179,6 +179,30 @@ export default function SessionDetail() {
           {activeExercise.description}
         </Text>
 
+        {/* Watch Video button */}
+        {activeExercise.videoUrl && (
+          <TouchableOpacity
+            onPress={() => Linking.openURL(activeExercise.videoUrl!)}
+            style={[
+              styles.videoBtn,
+              {
+                backgroundColor: variant === 'zen-flow' ? session.color + '20' : theme.badge,
+                borderColor: variant === 'zen-flow' ? session.color + '40' : theme.cardBorder,
+              },
+            ]}
+          >
+            <Text style={styles.videoBtnEmoji}>{'\u25B6\uFE0F'}</Text>
+            <Text
+              style={[
+                styles.videoBtnText,
+                { color: variant === 'zen-flow' ? session.color : theme.accent },
+              ]}
+            >
+              Watch Video
+            </Text>
+          </TouchableOpacity>
+        )}
+
         {/* Alternatives */}
         {session.alternatives.length > 0 && (
           <View style={styles.alternativesSection}>
@@ -504,7 +528,22 @@ const styles = StyleSheet.create({
 
   // Exercise info
   exerciseTitle: { fontSize: 18, fontWeight: '600', marginBottom: 8 },
-  exerciseDesc: { fontSize: 15, lineHeight: 22, marginBottom: 24 },
+  exerciseDesc: { fontSize: 15, lineHeight: 22, marginBottom: 16 },
+
+  // Video button
+  videoBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginBottom: 24,
+  },
+  videoBtnEmoji: { fontSize: 16 },
+  videoBtnText: { fontSize: 15, fontWeight: '600' },
 
   // Alternatives
   alternativesSection: { marginTop: 4 },
