@@ -18,7 +18,8 @@
   "submit": {
     "production": {
       "ios": {
-        "appleId": "jacob@ideapad.io"
+        "appleId": "jacob@ideapad.io",
+        "ascAppId": "6760338801"
       }
     }
   }
