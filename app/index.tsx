@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  Linking,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -73,10 +74,82 @@ export default function HomeScreen() {
           <JacobGrid sessions={SESSIONS} router={router} theme={theme} />
         ) : variant === 'zen-flow' ? (
           <ZenFlowGrid sessions={SESSIONS} router={router} theme={theme} />
+        ) : variant === 'serenity' ? (
+          <SerenityGrid sessions={SESSIONS} router={router} theme={theme} />
         ) : (
           <EmberGrid sessions={SESSIONS} router={router} theme={theme} />
         )}
+
+        {/* About / More Resources */}
+        <TouchableOpacity
+          onPress={() => router.push('/about')}
+          style={[styles.aboutLink, { borderTopColor: theme.cardBorder }]}
+        >
+          <Text style={[styles.aboutLinkText, { color: theme.textSecondary }]}>
+            About & Resources
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
+    </View>
+  );
+}
+
+/* ============ SERENITY (Clean & Modern) ============ */
+function SerenityGrid({ sessions, router, theme }: any) {
+  return (
+    <View style={styles.serenityGrid}>
+      {sessions.map((session: Session, i: number) => {
+        if (i === 0) {
+          return (
+            <TouchableOpacity
+              key={session.id}
+              activeOpacity={0.9}
+              onPress={() => router.push(`/session/${session.id}`)}
+              style={[
+                styles.serenityFeaturedCard,
+                { backgroundColor: theme.accent },
+              ]}
+            >
+              <View style={styles.serenityFeaturedTop}>
+                <View style={styles.serenityBadge}>
+                  <Text style={[styles.serenityBadgeText, { color: theme.accent }]}>FEATURED</Text>
+                </View>
+                <Text style={styles.serenityIconLarge}>{session.icon}</Text>
+              </View>
+              <View style={styles.serenityFeaturedBottom}>
+                <Text style={[styles.serenityFeaturedTitle, { color: theme.accentText }]}>{session.title}</Text>
+                <Text style={[styles.serenityFeaturedSubtitle, { color: theme.accentText + 'BF' }]}>{session.subtitle}</Text>
+                <View style={styles.serenityFeaturedMeta}>
+                   <Text style={[styles.serenityFeaturedDuration, { color: theme.accentText + '80' }]}>{session.durationMin} minutes</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        }
+        return (
+          <TouchableOpacity
+            key={session.id}
+            activeOpacity={0.8}
+            onPress={() => router.push(`/session/${session.id}`)}
+            style={[
+              styles.serenityCard,
+              { backgroundColor: theme.card },
+            ]}
+          >
+            <View style={[styles.serenityIconContainer, { backgroundColor: session.color + '12' }]}>
+              <Text style={styles.serenityIcon}>{session.icon}</Text>
+            </View>
+            <View style={styles.serenityContent}>
+              <Text style={[styles.serenityTitle, { color: theme.text }]}>{session.title}</Text>
+              <Text style={[styles.serenitySubtitle, { color: theme.textSecondary }]}>{session.subtitle}</Text>
+            </View>
+            <View style={styles.serenityMeta}>
+              <Text style={[styles.serenityDuration, { color: theme.textMuted }]}>{session.durationMin}m</Text>
+              <View style={[styles.serenityChevron, { borderColor: theme.textMuted }]} />
+            </View>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
@@ -302,4 +375,98 @@ const styles = StyleSheet.create({
   },
   emberBadgeText: { fontSize: 13, fontWeight: '700' },
   emberCardDesc: { fontSize: 13, marginTop: 10 },
+
+  // Serenity
+  serenityGrid: { gap: 12 },
+  serenityFeaturedCard: {
+    padding: 24,
+    borderRadius: 24,
+    marginBottom: 12,
+    shadowColor: '#101828',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  serenityFeaturedTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 40,
+  },
+  serenityBadge: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  serenityBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  serenityIconLarge: { fontSize: 48 },
+  serenityFeaturedBottom: {},
+  serenityFeaturedTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    letterSpacing: -0.5,
+  },
+  serenityFeaturedSubtitle: {
+    fontSize: 16,
+    marginTop: 4,
+    fontWeight: '500',
+  },
+  serenityFeaturedMeta: {
+    marginTop: 16,
+  },
+  serenityFeaturedDuration: {
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  serenityCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 20,
+    shadowColor: '#101828',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  serenityIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  serenityIcon: { fontSize: 24 },
+  serenityContent: { flex: 1 },
+  serenityTitle: { fontSize: 17, fontWeight: '600', letterSpacing: -0.2 },
+  serenitySubtitle: { fontSize: 14, marginTop: 2 },
+  serenityMeta: { flexDirection: 'row', alignItems: 'center' },
+  serenityDuration: { fontSize: 13, fontWeight: '500', marginRight: 8 },
+  serenityChevron: {
+    width: 8,
+    height: 8,
+    borderRightWidth: 1.5,
+    borderTopWidth: 1.5,
+    transform: [{ rotate: '45deg' }],
+    opacity: 0.4,
+  },
+
+  // About link
+  aboutLink: {
+    marginTop: 28,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    alignItems: 'center',
+  },
+  aboutLinkText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
 });
