@@ -193,16 +193,16 @@ function JacobGrid({ sessions, router, theme }: any) {
   );
 }
 
-/* ============ ZEN FLOW (Calm-inspired) ============ */
+/* ============ ZEN FLOW (Calm-inspired 2x2 grid) ============ */
 function ZenFlowGrid({ sessions, router, theme }: any) {
   return (
     <View style={styles.zenGrid}>
-      {sessions.map((session: Session, i: number) => (
+      {sessions.map((session: Session) => (
         <TouchableOpacity
           key={session.id}
           activeOpacity={0.85}
           onPress={() => router.push(`/session/${session.id}`)}
-          style={[styles.zenCardOuter, i === 0 && styles.zenCardFeatured]}
+          style={styles.zenCardOuter}
         >
           <LinearGradient
             colors={[session.color + '30', session.color + '08']}
@@ -210,10 +210,7 @@ function ZenFlowGrid({ sessions, router, theme }: any) {
             end={{ x: 1, y: 1 }}
             style={[
               styles.zenCard,
-              {
-                borderColor: session.color + '30',
-                height: i === 0 ? 180 : 140,
-              },
+              { borderColor: session.color + '30' },
             ]}
           >
             <View style={styles.zenCardHeader}>
@@ -225,23 +222,18 @@ function ZenFlowGrid({ sessions, router, theme }: any) {
                 ]}
               >
                 <Text style={[styles.zenBadgeText, { color: session.color }]}>
-                  {session.durationMin} min
+                  {session.durationMin}m
                 </Text>
               </View>
             </View>
             <View style={styles.zenCardBody}>
-              <Text style={[styles.zenCardTitle, { color: theme.text }]}>
+              <Text style={[styles.zenCardTitle, { color: theme.text }]} numberOfLines={1}>
                 {session.title}
               </Text>
-              <Text style={[styles.zenCardSubtitle, { color: session.color }]}>
+              <Text style={[styles.zenCardSubtitle, { color: session.color }]} numberOfLines={1}>
                 {session.subtitle}
               </Text>
             </View>
-            {i === 0 && (
-              <Text style={[styles.zenCardDesc, { color: theme.textSecondary }]}>
-                {session.primary.title}
-              </Text>
-            )}
           </LinearGradient>
         </TouchableOpacity>
       ))}
@@ -341,14 +333,20 @@ const styles = StyleSheet.create({
   jacobCardTitle: { fontSize: 16, fontWeight: '600', lineHeight: 22 },
   jacobCardDuration: { fontSize: 14, marginTop: 12 },
 
-  // Zen Flow
-  zenGrid: { gap: 14 },
-  zenCardOuter: {},
-  zenCardFeatured: {},
+  // Zen Flow 2x2 grid
+  zenGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: CARD_GAP,
+  },
+  zenCardOuter: {
+    width: CARD_WIDTH,
+  },
   zenCard: {
-    borderRadius: 16,
+    borderRadius: 20,
     borderWidth: 1,
-    padding: 20,
+    padding: 16,
+    height: 160,
     justifyContent: 'space-between',
     overflow: 'hidden',
   },
@@ -357,13 +355,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  zenIcon: { fontSize: 28 },
-  zenBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 },
-  zenBadgeText: { fontSize: 12, fontWeight: '600' },
-  zenCardBody: { marginTop: 8 },
-  zenCardTitle: { fontSize: 20, fontWeight: '700' },
-  zenCardSubtitle: { fontSize: 14, fontWeight: '500', marginTop: 2 },
-  zenCardDesc: { fontSize: 13, marginTop: 8 },
+  zenIcon: { fontSize: 32 },
+  zenBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 },
+  zenBadgeText: { fontSize: 11, fontWeight: '600' },
+  zenCardBody: { marginTop: 'auto' as any },
+  zenCardTitle: { fontSize: 17, fontWeight: '700' },
+  zenCardSubtitle: { fontSize: 13, fontWeight: '500', marginTop: 2 },
 
   // Ember
   emberGrid: { gap: 12 },
