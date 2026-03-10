@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jacobcole.qiflow"
+      "bundleIdentifier": "com.jacobcole.qiflow",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,8 +33,18 @@
       "bundler": "metro",
       "output": "single"
     },
+    "experiments": {
+      "baseUrl": "/QigongApp"
+    },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "698224a7-34b2-464e-9144-d7442fbe95cf"
+      },
+      "router": {}
+    },
+    "owner": "ifexpo"
   }
 }
