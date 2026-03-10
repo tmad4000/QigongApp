@@ -1,4 +1,4 @@
-export type DesignVariant = 'jacob-original' | 'zen-flow' | 'ember';
+export type DesignVariant = 'jacob-original' | 'zen-flow' | 'ember' | 'serenity';
 
 export interface Theme {
   name: string;
@@ -75,5 +75,24 @@ export const themes: Record<DesignVariant, Theme> = {
     badgeText: '#FF6B35',
     headerBg: '#FF6B35',
     headerText: '#FFFFFF',
+  },
+
+  // Serenity: clean, modern, spacious
+  serenity: {
+    name: 'Serenity',
+    description: 'Clean & modern',
+    bg: '#F2F4F7',
+    bgSecondary: '#FFFFFF',
+    card: '#FFFFFF',
+    cardBorder: 'transparent',
+    text: '#101828',
+    textSecondary: '#475467',
+    textMuted: '#98A2B3',
+    accent: '#101828',
+    accentText: '#FFFFFF',
+    badge: '#F2F4F7',
+    badgeText: '#344054',
+    headerBg: '#FFFFFF',
+    headerText: '#101828',
   },
 };

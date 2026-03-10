@@ -6,7 +6,7 @@ function InnerLayout() {
   const { theme, variant } = useTheme();
   return (
     <>
-      <StatusBar style={variant === 'jacob-original' || variant === 'ember' ? 'dark' : 'light'} />
+      <StatusBar style={variant === 'zen-flow' ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
           headerShown: false,

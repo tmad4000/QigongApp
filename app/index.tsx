@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../src/themes/ThemeContext';
 import { SESSIONS, Session } from '../src/data/sessions';
 import { DesignVariant, themes } from '../src/themes';
+import { Logo } from '../src/components/Logo';
 
 const { width } = Dimensions.get('window');
 const CARD_GAP = 12;
@@ -35,12 +36,17 @@ export default function HomeScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.text }]}>{theme.name}</Text>
-          {variant === 'zen-flow' && (
-            <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-              Cultivate your energy
-            </Text>
-          )}
+          <View style={styles.headerTop}>
+            <Logo size={40} color={theme.accent} />
+            <View style={styles.headerTextGroup}>
+              <Text style={[styles.title, { color: theme.text }]}>{theme.name}</Text>
+              {variant === 'zen-flow' && (
+                <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
+                  Cultivate your energy
+                </Text>
+              )}
+            </View>
+          </View>
         </View>
 
         {/* Design switcher */}
@@ -296,8 +302,10 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { paddingHorizontal: 20 },
   header: { marginBottom: 20 },
-  title: { fontSize: 32, fontWeight: '700', letterSpacing: -0.5 },
-  subtitle: { fontSize: 16, marginTop: 4, opacity: 0.7 },
+  headerTop: { flexDirection: 'row', alignItems: 'center', gap: 16 },
+  headerTextGroup: { flex: 1 },
+  title: { fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
+  subtitle: { fontSize: 14, marginTop: 2, opacity: 0.7 },
 
   // Design switcher
   designSwitcher: {

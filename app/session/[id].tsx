@@ -21,6 +21,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useTheme } from '../../src/themes/ThemeContext';
 import { getSession, Exercise, Session } from '../../src/data/sessions';
+import { VideoEmbed } from '../../src/components/VideoEmbed';
 
 const { width } = Dimensions.get('window');
 
@@ -116,7 +117,18 @@ export default function SessionDetail() {
           </View>
         </View>
 
-        {/* Visual area — breathing animation or video placeholder */}
+        {/* Video embed (default when video available) */}
+        {activeExercise.videoUrl && (
+          <VideoEmbed
+            url={activeExercise.videoUrl}
+            accentColor={session.color}
+            themeCard={theme.card}
+            themeCardBorder={theme.cardBorder}
+            themeTextSecondary={theme.textSecondary}
+          />
+        )}
+
+        {/* Timer / breathing animation (always shown below video, or as primary if no video) */}
         {variant === 'zen-flow' ? (
           <BreathingOrb
             session={session}
@@ -129,6 +141,16 @@ export default function SessionDetail() {
         ) : variant === 'ember' ? (
           <EmberVisual
             session={session}
+            isPlaying={isPlaying}
+            progress={progress}
+            elapsed={elapsed}
+            totalSeconds={totalSeconds}
+            formatTime={formatTime}
+          />
+        ) : variant === 'serenity' ? (
+          <SerenityVisual
+            session={session}
+            theme={theme}
             isPlaying={isPlaying}
             progress={progress}
             elapsed={elapsed}
@@ -178,30 +200,6 @@ export default function SessionDetail() {
         <Text style={[styles.exerciseDesc, { color: theme.textSecondary }]}>
           {activeExercise.description}
         </Text>
-
-        {/* Watch Video button */}
-        {activeExercise.videoUrl && (
-          <TouchableOpacity
-            onPress={() => Linking.openURL(activeExercise.videoUrl!)}
-            style={[
-              styles.videoBtn,
-              {
-                backgroundColor: variant === 'zen-flow' ? session.color + '20' : theme.badge,
-                borderColor: variant === 'zen-flow' ? session.color + '40' : theme.cardBorder,
-              },
-            ]}
-          >
-            <Text style={styles.videoBtnEmoji}>{'\u25B6\uFE0F'}</Text>
-            <Text
-              style={[
-                styles.videoBtnText,
-                { color: variant === 'zen-flow' ? session.color : theme.accent },
-              ]}
-            >
-              Watch Video
-            </Text>
-          </TouchableOpacity>
-        )}
 
         {/* Alternatives */}
         {session.alternatives.length > 0 && (
@@ -396,6 +394,64 @@ function EmberVisual({
   );
 }
 
+/* ============ SERENITY VISUAL ============ */
+function SerenityVisual({
+  session,
+  theme,
+  isPlaying,
+  progress,
+  elapsed,
+  totalSeconds,
+  formatTime,
+}: any) {
+  const pulse = useSharedValue(1);
+
+  useEffect(() => {
+    if (isPlaying) {
+      pulse.value = withRepeat(
+        withSequence(
+          withTiming(1.04, { duration: 2500, easing: Easing.inOut(Easing.ease) }),
+          withTiming(1, { duration: 2500, easing: Easing.inOut(Easing.ease) })
+        ),
+        -1,
+        true
+      );
+    } else {
+      pulse.value = withTiming(1, { duration: 500 });
+    }
+  }, [isPlaying]);
+
+  const pulseStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: pulse.value }],
+  }));
+
+  return (
+    <View style={styles.serenityVisualContainer}>
+      <Animated.View style={[styles.serenityVisualCircle, pulseStyle, { backgroundColor: session.color + '08' }]}>
+         <Text style={styles.serenityVisualIconLarge}>{session.icon}</Text>
+      </Animated.View>
+
+      <View style={styles.serenityVisualTimerContainer}>
+        <Text style={[styles.serenityVisualTimer, { color: theme.text }]}>
+          {formatTime(elapsed)}
+        </Text>
+        <Text style={[styles.serenityVisualTotal, { color: theme.textMuted }]}>
+          / {formatTime(totalSeconds)}
+        </Text>
+      </View>
+
+      <View style={[styles.serenityProgressBar, { backgroundColor: theme.cardBorder || '#E5E7EB' }]}>
+        <View
+          style={[
+            styles.serenityProgressFill,
+            { backgroundColor: theme.accent, width: `${progress * 100}%` },
+          ]}
+        />
+      </View>
+    </View>
+  );
+}
+
 /* ============ JACOB ORIGINAL VISUAL ============ */
 function JacobVisual({
   session,
@@ -554,4 +610,48 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   altTitle: { fontSize: 15, fontWeight: '500' },
+
+  // Serenity Visual
+  serenityVisualContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 40,
+    marginTop: 20,
+  },
+  serenityVisualCircle: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 32,
+  },
+  serenityVisualIconLarge: { fontSize: 80 },
+  serenityVisualTimerContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginBottom: 24,
+  },
+  serenityVisualTimer: {
+    fontSize: 56,
+    fontWeight: '700',
+    letterSpacing: -2,
+  },
+  serenityVisualTotal: {
+    fontSize: 20,
+    fontWeight: '500',
+    marginLeft: 8,
+    opacity: 0.6,
+  },
+  serenityProgressBar: {
+    width: '100%',
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#F2F4F7',
+    overflow: 'hidden',
+  },
+  serenityProgressFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
 });
