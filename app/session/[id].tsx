@@ -217,26 +217,28 @@ export default function SessionDetail() {
           {activeExercise.description}
         </Text>
 
-        {/* Alternatives */}
+        {/* All exercises (primary + alternatives) */}
         {session.alternatives.length > 0 && (
           <View style={styles.alternativesSection}>
-            <Text style={[styles.altHeader, { color: theme.text }]}>Alternatives:</Text>
-            {session.alternatives.map((alt) => (
+            <Text style={[styles.altHeader, { color: theme.text }]}>Exercises:</Text>
+            {[session.primary, ...session.alternatives].map((ex) => (
               <TouchableOpacity
-                key={alt.id}
+                key={ex.id}
                 onPress={() => {
-                  setActiveExercise(alt);
-                  handleReset();
+                  if (activeExercise.id !== ex.id) {
+                    setActiveExercise(ex);
+                    handleReset();
+                  }
                 }}
                 style={[
                   styles.altCard,
                   {
                     backgroundColor: theme.card,
                     borderColor:
-                      activeExercise.id === alt.id
+                      activeExercise.id === ex.id
                         ? session.color
                         : theme.cardBorder,
-                    borderWidth: activeExercise.id === alt.id ? 2 : 1,
+                    borderWidth: activeExercise.id === ex.id ? 2 : 1,
                   },
                 ]}
               >
@@ -245,13 +247,13 @@ export default function SessionDetail() {
                     styles.altTitle,
                     {
                       color:
-                        activeExercise.id === alt.id
+                        activeExercise.id === ex.id
                           ? session.color
                           : theme.accent,
                     },
                   ]}
                 >
-                  {alt.title} ({alt.durationMin} min)
+                  {ex.title} ({ex.durationMin} min)
                 </Text>
               </TouchableOpacity>
             ))}
