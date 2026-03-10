@@ -4,12 +4,10 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
+  useWindowDimensions,
   Platform,
   Linking,
 } from 'react-native';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface VideoEmbedProps {
   url: string;
@@ -61,9 +59,11 @@ function parseVideoUrl(url: string): { type: 'youtube' | 'facebook' | 'unknown';
 export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, themeTextSecondary }: VideoEmbedProps) {
   const [expanded, setExpanded] = useState(false);
   const { type, embedUrl } = parseVideoUrl(url);
+  const { width: windowWidth } = useWindowDimensions();
 
-  const videoWidth = SCREEN_WIDTH - 40;
-  const videoHeight = expanded ? videoWidth * 0.75 : videoWidth * 0.5625; // 4:3 expanded, 16:9 normal
+  // Responsive: fill container on mobile, cap at 800px on desktop
+  const maxVideoWidth = Platform.OS === 'web' ? Math.min(windowWidth - 40, 800) : windowWidth - 40;
+  const aspectRatio = expanded ? 4 / 3 : 16 / 9;
 
   if (type === 'unknown') {
     return (
@@ -85,8 +85,9 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
           style={[
             styles.videoWrapper,
             {
-              width: videoWidth,
-              height: videoHeight,
+              width: '100%',
+              maxWidth: maxVideoWidth,
+              aspectRatio,
               borderColor: themeCardBorder,
               backgroundColor: '#000',
             },
@@ -127,8 +128,8 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
         style={[
           styles.videoWrapper,
           {
-            width: videoWidth,
-            height: videoHeight,
+            width: maxVideoWidth,
+            aspectRatio,
             borderColor: themeCardBorder,
             backgroundColor: '#000',
           },
@@ -162,7 +163,8 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
+    width: '100%',
   },
   videoWrapper: {
     borderRadius: 12,
