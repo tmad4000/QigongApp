@@ -33,6 +33,7 @@ function parseVideoUrl(url: string): { type: 'youtube' | 'facebook' | 'unknown';
       autoplay: '0',
       rel: '0',
       modestbranding: '1',
+      playsinline: '1',
       ...(startSec > 0 ? { start: String(startSec) } : {}),
     });
 
@@ -126,7 +127,7 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <style>*{margin:0;padding:0;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:none}</style>
 </head><body>
-<iframe src="${embedUrl}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen></iframe>
+<iframe src="${embedUrl}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen playsinline></iframe>
 </body></html>`;
 
   return (
@@ -143,12 +144,13 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
         ]}
       >
         <WebView
-          source={{ html }}
+          source={{ html, baseUrl: 'https://www.youtube.com' }}
           style={{ flex: 1, borderRadius: 12 }}
           allowsFullscreenVideo
           allowsInlineMediaPlayback
           mediaPlaybackRequiresUserAction={false}
           javaScriptEnabled
+          originWhitelist={['*']}
         />
       </View>
       <View style={styles.videoControls}>
