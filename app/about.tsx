@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Linking } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../src/themes/ThemeContext';
 
@@ -40,7 +40,16 @@ const RESOURCES = [
 export default function AboutScreen() {
   const { theme } = useTheme();
   const router = useRouter();
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/');
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bg }]}>
@@ -51,7 +60,7 @@ export default function AboutScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+        <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Text style={[styles.backText, { color: theme.accent }]}>{'\u2190'} Back</Text>
         </TouchableOpacity>
 

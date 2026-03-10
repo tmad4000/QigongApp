@@ -8,7 +8,7 @@ import {
   Dimensions,
   Linking,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
@@ -30,7 +30,16 @@ export default function SessionDetail() {
   const session = getSession(id || '');
   const { theme, variant } = useTheme();
   const router = useRouter();
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/');
+    }
+  };
   const [activeExercise, setActiveExercise] = useState<Exercise | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
@@ -93,7 +102,7 @@ export default function SessionDetail() {
       >
         {/* Back button + header */}
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+          <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
             <Text style={[styles.backText, { color: theme.accent }]}>
               {'\u2190'} Back
             </Text>
