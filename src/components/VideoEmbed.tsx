@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   View,
   Text,
@@ -17,14 +17,18 @@ interface VideoEmbedProps {
   themeTextSecondary: string;
 }
 
-function parseVideoUrl(url: string): { type: 'youtube' | 'facebook' | 'unknown'; embedUrl: string } {
-  // YouTube: youtube.com/watch?v=ID, youtu.be/ID, with optional ?t= or &t= or ?start=
+function parseVideoUrl(url: string): {
+  type: 'youtube' | 'facebook' | 'unknown';
+  videoId: string;
+  startSec: number;
+  embedUrl: string;
+} {
+  // YouTube: youtube.com/watch?v=ID, youtu.be/ID, with optional ?t= or &t=
   const ytMatch = url.match(
     /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/
   );
   if (ytMatch) {
     const videoId = ytMatch[1];
-    // Extract timestamp from various formats
     let startSec = 0;
     const tMatch = url.match(/[?&]t=(\d+)/);
     if (tMatch) startSec = parseInt(tMatch[1], 10);
@@ -39,6 +43,8 @@ function parseVideoUrl(url: string): { type: 'youtube' | 'facebook' | 'unknown';
 
     return {
       type: 'youtube',
+      videoId,
+      startSec,
       embedUrl: `https://www.youtube.com/embed/${videoId}?${params.toString()}`,
     };
   }
@@ -46,25 +52,26 @@ function parseVideoUrl(url: string): { type: 'youtube' | 'facebook' | 'unknown';
   // Facebook: facebook.com/watch/?v=ID or facebook.com/.../videos/ID
   const fbMatch = url.match(/facebook\.com\/(?:watch\/?\?v=|.*\/videos\/)(\d+)/);
   if (fbMatch) {
-    const videoId = fbMatch[1];
     const encodedUrl = encodeURIComponent(url);
     return {
       type: 'facebook',
+      videoId: fbMatch[1],
+      startSec: 0,
       embedUrl: `https://www.facebook.com/plugins/video.php?href=${encodedUrl}&show_text=false&width=560`,
     };
   }
 
-  return { type: 'unknown', embedUrl: url };
+  return { type: 'unknown', videoId: '', startSec: 0, embedUrl: url };
 }
 
 export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, themeTextSecondary }: VideoEmbedProps) {
   const [expanded, setExpanded] = useState(false);
-  const { type, embedUrl } = parseVideoUrl(url);
+  const { type, videoId, startSec, embedUrl } = parseVideoUrl(url);
   const { width: windowWidth } = useWindowDimensions();
 
   // Responsive: fill container on mobile, cap at 800px on desktop
   const maxVideoWidth = Platform.OS === 'web' ? Math.min(windowWidth - 40, 800) : windowWidth - 40;
-  const aspectRatio = expanded ? 4 / 3 : 16 / 9;
+  const videoHeight = Math.round(maxVideoWidth / (expanded ? 4 / 3 : 16 / 9));
 
   if (type === 'unknown') {
     return (
@@ -79,6 +86,7 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
     );
   }
 
+  // Web: use iframe directly (works fine on web)
   if (Platform.OS === 'web') {
     return (
       <View style={styles.container}>
@@ -88,7 +96,7 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
             {
               width: '100%',
               maxWidth: maxVideoWidth,
-              aspectRatio,
+              aspectRatio: expanded ? 4 / 3 : 16 / 9,
               borderColor: themeCardBorder,
               backgroundColor: '#000',
             },
@@ -120,7 +128,54 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
     );
   }
 
-  // Native: use WebView with HTML wrapper for YouTube/Facebook embeds
+  // Native iOS/Android: use react-native-youtube-iframe for YouTube
+  if (type === 'youtube') {
+    const YoutubePlayer = require('react-native-youtube-iframe').default;
+
+    return (
+      <View style={styles.container}>
+        <View
+          style={[
+            styles.videoWrapper,
+            {
+              width: maxVideoWidth,
+              height: videoHeight,
+              borderColor: themeCardBorder,
+              backgroundColor: '#000',
+            },
+          ]}
+        >
+          <YoutubePlayer
+            height={videoHeight}
+            width={maxVideoWidth}
+            videoId={videoId}
+            initialPlayerParams={{
+              modestbranding: true,
+              rel: false,
+              start: startSec > 0 ? startSec : undefined,
+            }}
+            webViewProps={{
+              allowsInlineMediaPlayback: true,
+            }}
+          />
+        </View>
+        <View style={styles.videoControls}>
+          <TouchableOpacity onPress={() => setExpanded(!expanded)} style={styles.controlBtn}>
+            <Text style={[styles.controlText, { color: themeTextSecondary }]}>
+              {expanded ? 'Smaller' : 'Larger'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL(url)} style={styles.controlBtn}>
+            <Text style={[styles.controlText, { color: themeTextSecondary }]}>
+              Open externally {'\u2197'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  // Native fallback for non-YouTube (Facebook, etc.): WebView with HTML wrapper
   const WebView = require('react-native-webview').default;
   const html = `<!DOCTYPE html>
 <html><head>
@@ -137,14 +192,14 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
           styles.videoWrapper,
           {
             width: maxVideoWidth,
-            aspectRatio,
+            height: videoHeight,
             borderColor: themeCardBorder,
             backgroundColor: '#000',
           },
         ]}
       >
         <WebView
-          source={{ html, baseUrl: 'https://www.youtube.com' }}
+          source={{ html }}
           style={{ flex: 1, borderRadius: 12 }}
           allowsFullscreenVideo
           allowsInlineMediaPlayback
