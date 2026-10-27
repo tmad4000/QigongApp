@@ -1,0 +1,48 @@
+{
+  "verifiedAt": "2026-10-27T09:10:31.113947+00:00",
+  "appId": "6760338801",
+  "appName": "Qi Flow (9a42b2)",
+  "buildId": "94e1a601-85c6-4ea3-80a3-67535125e2e0",
+  "version": "1.0.0",
+  "build": "12",
+  "processingState": "VALID",
+  "buildAudienceType": "APP_STORE_ELIGIBLE",
+  "group": {
+    "id": "404994ab-9230-4a1f-8d60-b2174679fdcf",
+    "publicLinkLimit": null,
+    "iosBuildsAvailableForAppleSiliconMac": true,
+    "createdDate": "2026-10-27T09:09:56.782Z",
+    "publicLinkEnabled": false,
+    "publicLink": null,
+    "hasAccessToAllBuilds": null,
+    "publicLinkId": null,
+    "isInternalGroup": false,
+    "name": "External Testing",
+    "feedbackEnabled": true,
+    "publicLinkLimitEnabled": false,
+    "iosBuildsAvailableForAppleVision": true
+  },
+  "tester": {
+    "id": "52a1da25-2657-4a95-bc50-51d62637a994",
+    "email": "tmad4000@gmail.com",
+    "state": "INSTALLED"
+  },
+  "associationsVerified": [
+    "build-app",
+    "group-app",
+    "group-build",
+    "group-tester",
+    "review-build"
+  ],
+  "review": {
+    "id": "94e1a601-85c6-4ea3-80a3-67535125e2e0",
+    "betaReviewState": "APPROVED",
+    "submittedDate": null
+  },
+  "betaDetail": {
+    "autoNotifyEnabled": true,
+    "internalBuildState": "IN_BETA_TESTING",
+    "externalBuildState": "IN_BETA_TESTING"
+  },
+  "limits": "Tester association is not acceptance or installation. Beta review submission is not approval. Public App Store release remains gated by product readiness. No public link created."
+}

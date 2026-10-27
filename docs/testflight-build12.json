@@ -1,0 +1,33 @@
+{
+  "appId": "6760338801",
+  "build": "12",
+  "buildId": "94e1a601-85c6-4ea3-80a3-67535125e2e0",
+  "processingState": "VALID",
+  "uploadedDate": "2026-10-27T01:52:25-07:00",
+  "expirationDate": "2027-01-25T00:52:25-08:00",
+  "internalGroups": [
+    {
+      "id": "8d428b95-d496-4340-b7d2-4d90af50ec70",
+      "name": "Team (Expo)",
+      "hasAccessToAllBuilds": true,
+      "jacob": [
+        {
+          "id": "52a1da25-2657-4a95-bc50-51d62637a994",
+          "state": "INSTALLED"
+        }
+      ]
+    },
+    {
+      "id": "4471f4c8-3743-4ef4-ace2-08e9aec7a2f8",
+      "name": "friends",
+      "hasAccessToAllBuilds": true,
+      "jacob": []
+    }
+  ],
+  "betaDetail": {
+    "autoNotifyEnabled": true,
+    "internalBuildState": "IN_BETA_TESTING",
+    "externalBuildState": "READY_FOR_BETA_SUBMISSION"
+  },
+  "verifiedAt": "2026-10-27T08:53:42Z"
+}

@@ -2,17 +2,17 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '../../src/themes/ThemeContext';
-import { DesignVariant, themes } from '../../src/themes';
+import { useTheme, UserVariant } from '../../src/themes/ThemeContext';
+import { themes } from '../../src/themes';
 
-const designPreviews: { variant: DesignVariant; emoji: string }[] = [
+const designPreviews: { variant: UserVariant; emoji: string }[] = [
   { variant: 'jacob-original', emoji: '📐' },
   { variant: 'zen-flow', emoji: '🌙' },
   { variant: 'ember', emoji: '🔥' },
 ];
 
 export default function DesignPicker() {
-  const { theme, setVariant, variant } = useTheme();
+  const { theme, setVariant, userVariant } = useTheme();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -25,7 +25,7 @@ export default function DesignPicker() {
 
       {designPreviews.map(({ variant: v, emoji }) => {
         const t = themes[v];
-        const isActive = variant === v;
+        const isActive = userVariant === v;
         return (
           <TouchableOpacity
             key={v}
