@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Constants from 'expo-constants';
+import pkg from '../package.json';
 import { format } from './app-stamp';
 export default function ReleaseStamp({ color }: { color: string }) {
-  const info = Constants.expoConfig?.extra?.release || {};
-  const version = Constants.expoConfig?.version || info.version || '';
+  const info = JSON.parse(process.env.EXPO_PUBLIC_APP_BUILD_INFO || '{}');
+  const version = info.version || pkg.version;
   const [now, setNow] = useState(Date.now());
   const [exact, setExact] = useState(false);
   useEffect(() => {
