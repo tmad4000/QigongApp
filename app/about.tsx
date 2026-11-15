@@ -1,4 +1,5 @@
 import { openWebFeedback } from '../src/feedback';
+import ReleaseStamp from '../src/ReleaseStamp';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Linking, Platform } from 'react-native';
 import { useRouter, useNavigation } from 'expo-router';
@@ -95,9 +96,7 @@ export default function AboutScreen() {
         ))}
 
         <View style={[styles.footer, { borderTopColor: theme.cardBorder }]}>
-          <Text style={[styles.footerText, { color: theme.textMuted }]}>
-            v1.0.0
-          </Text>
+          <ReleaseStamp color={theme.textSecondary} />
         </View>
       </ScrollView>
     </View>
