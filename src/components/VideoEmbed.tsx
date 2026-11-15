@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import YoutubePlayer from './NativeYoutubePlayer';
 import {
   View,
   Text,
@@ -130,7 +131,6 @@ export function VideoEmbed({ url, accentColor, themeCard, themeCardBorder, theme
 
   // Native iOS/Android: use react-native-youtube-iframe for YouTube
   if (type === 'youtube') {
-    const YoutubePlayer = require('react-native-youtube-iframe').default;
 
     return (
       <View style={styles.container}>

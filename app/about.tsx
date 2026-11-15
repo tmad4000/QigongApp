@@ -1,5 +1,6 @@
+import { openWebFeedback } from '../src/feedback';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Linking, Platform } from 'react-native';
 import { useRouter, useNavigation } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../src/themes/ThemeContext';
@@ -63,6 +64,11 @@ export default function AboutScreen() {
         <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Text style={[styles.backText, { color: theme.accent }]}>{'\u2190'} Back</Text>
         </TouchableOpacity>
+        {Platform.OS === 'web' && (
+          <TouchableOpacity onPress={openWebFeedback} style={styles.backBtn}>
+            <Text style={[styles.backText, { color: theme.accent }]}>Send feedback</Text>
+          </TouchableOpacity>
+        )}
 
         <Text style={[styles.title, { color: theme.text }]}>About & Resources</Text>
 
